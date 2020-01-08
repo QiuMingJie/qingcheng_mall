@@ -31,7 +31,6 @@ public class BrandServiceImpl implements BrandService {
 
     /**
      * 分页
-     *
      * @param page
      * @param size
      * @return
@@ -55,7 +54,7 @@ public class BrandServiceImpl implements BrandService {
         Example example = createExample(searchMap);
         PageHelper.startPage(page, size);
         Page<Brand> result = (Page<Brand>) brandMapper.selectByExample(example);
-        return new PageResult<>(result.getTotal(),result.getResult());
+        return new PageResult<>(result.getTotal(), result.getResult());
     }
 
     @Override
@@ -66,7 +65,22 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public int add(Brand brand) {
+        //selective就是只插入有只的！对于默认值有重要作用
+//        brandMapper.insertSelective(brand);
         return brandMapper.insert(brand);
+    }
+
+    @Override
+    public int update(Brand brand) {
+        //不覆盖空值
+        return brandMapper.updateByPrimaryKeySelective(brand);
+        //覆盖空值
+//        brandMapper.updateByPrimaryKey();
+    }
+
+    @Override
+    public int delete(Integer brandId) {
+        return brandMapper.deleteByPrimaryKey(brandId);
     }
 
     private Example createExample(Map<String, Object> searchMap) {
@@ -74,7 +88,7 @@ public class BrandServiceImpl implements BrandService {
         Example.Criteria criteria = example.createCriteria();
         if (searchMap != null) {
             if (searchMap.get("name") != null && !"".equals(searchMap.get("name"))) {
-                criteria.andLike("name", "%" + (String) searchMap.get("name" )+ "%");
+                criteria.andLike("name", "%" + (String) searchMap.get("name") + "%");
             }
             if (searchMap.get("letter") != null && !"".equals(searchMap.get("letter"))) {
                 criteria.andEqualTo("letter", (String) searchMap.get("letter"));

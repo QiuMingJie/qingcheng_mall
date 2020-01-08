@@ -24,4 +24,7 @@ public interface BrandService {
 
     public int add(Brand brand);
 
+    public int update(Brand brand);
+
+    public int delete(Integer brandId);
 }

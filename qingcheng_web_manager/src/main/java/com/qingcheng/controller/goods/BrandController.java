@@ -14,10 +14,10 @@ import java.util.Map;
 @RequestMapping("/brand")
 public class BrandController {
     @Reference
-    private  BrandService brandService;
+    private BrandService brandService;
 
     @RequestMapping("/findAll")
-    public List<Brand> findAll(){
+    public List<Brand> findAll() {
         return brandService.findAll();
     }
 
@@ -27,23 +27,34 @@ public class BrandController {
         return brandService.findPage(page, size);
     }
 
-    @RequestMapping(value = "/findList",method = RequestMethod.POST)
+    @RequestMapping(value = "/findList", method = RequestMethod.POST)
     public List<Brand> findList(@RequestBody Map<String, Object> searchMap) {
         return brandService.findList(searchMap);
     }
 
-    @RequestMapping(value = "/findListPage",method = RequestMethod.POST)
-    public PageResult<Brand> findList(int page,int size,@RequestBody Map<String, Object> searchMap) {
-        return brandService.findListPage(page,size,searchMap);
+    @RequestMapping(value = "/findListPage", method = RequestMethod.POST)
+    public PageResult<Brand> findList(int page, int size, @RequestBody Map<String, Object> searchMap) {
+        return brandService.findListPage(page, size, searchMap);
     }
 
-    @RequestMapping(value = "/findById",method = RequestMethod.GET)
+    @RequestMapping(value = "/findById", method = RequestMethod.GET)
     public Brand findById(Integer id) {
         return brandService.findById(id);
     }
 
     @PostMapping("/add")
     public Result add(@RequestBody Brand brand) {
-        return new Result(brandService.add(brand),"");
+        return new Result(brandService.add(brand), "");
+    }
+
+    @RequestMapping("/update")
+    public Result update(@RequestBody Brand brand) {
+        int i = 1 / 0;
+        return new Result(brandService.update(brand), "");
+    }
+
+    @RequestMapping("/delete")
+    public Result delete(Integer id) {
+        return new Result(brandService.delete(id), "");
     }
 }
