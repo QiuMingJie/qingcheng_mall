@@ -4,6 +4,8 @@
 /form/
 /.vscode
 /.idea/
+/.class/
+/.jar/
 
 #java
 *.class
