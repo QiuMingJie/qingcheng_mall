@@ -49,7 +49,6 @@ public class BrandController {
 
     @RequestMapping("/update")
     public Result update(@RequestBody Brand brand) {
-        int i = 1 / 0;
         return new Result(brandService.update(brand), "");
     }
 

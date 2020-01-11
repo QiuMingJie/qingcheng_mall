@@ -8,6 +8,8 @@ import com.qingcheng.entity.PageResult;
 import com.qingcheng.pojo.goods.Brand;
 import com.qingcheng.service.goods.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -18,7 +20,7 @@ import java.util.Map;
  * @date 2019-12-17 23:32
  * @Description
  */
-@Service
+@Service(interfaceName = "com.qingcheng.service.goods.BrandService")
 public class BrandServiceImpl implements BrandService {
 
     @Autowired
@@ -58,8 +60,14 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public Brand findById(Integer id) {
-
+        Brand brand = brandMapper.selectByPrimaryKey(id);
+        System.out.println(brand);
+        brand.setLetter("L");
+        brandMapper.updateByPrimaryKey(brand);
+        Brand brand1 = brandMapper.selectByPrimaryKey(id);
+        System.out.println(brand1);
         return brandMapper.selectByPrimaryKey(id);
     }
 
