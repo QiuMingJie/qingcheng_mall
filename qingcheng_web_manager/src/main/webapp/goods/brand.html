@@ -57,6 +57,7 @@
     <el-pagination
             @size-change="fetchData"
             @current-change="fetchData"
+         <!--必须加上sync，不同不会更新覆盖-->
             :current-page.sync="currentPage"
             :page-sizes="[10, 20, 30, 40]"
             :page-size="size"
@@ -85,7 +86,7 @@
                 <el-button @click="save()">保存</el-button>
             </el-form-item>
         </el-form>
-        </span>
+
     </el-dialog>
 </div>
 
@@ -122,24 +123,21 @@
                     this.tableData = response.data.rows;
                     this.total = response.data.total;
                 })
-
             },
             save() {
-                axios.post(`/brand/${this.pojo.id==null?'add':'update'}.do`, this.pojo).then(response => {
+                axios.post(`/brand/${this.pojo.id == null ? 'add' : 'update'}.do`, this.pojo).then(response => {
                     this.formVisible = false;
                     this.fetchData();
                 });
             }, edit(id) {
                 this.formVisible = true;
                 axios.get(`/brand/findById.do?id=${id}`).then(response => {
-                    this.pojo=response.data
+                    this.pojo = response.data
                 });
                 axios.post(`/brand/`)
             }
         }
-
     })
-
 </script>
 
 </body>
